@@ -2,10 +2,25 @@
 Password Stars
 """
 
-password = input("Password: ")
-minimum_length = 8
+MINIMUM_LENGTH = 8
 
-while len(password) < minimum_length:
-    print(f"Password does not meet the minimum length requirement of {minimum_length} characters.")
+
+def main():
+    password = get_password()
+
+    while len(password) < MINIMUM_LENGTH:
+        print(f"Password does not meet the minimum length requirement of {MINIMUM_LENGTH} characters.")
+        password = get_password()
+    print_password(password)
+
+
+def print_password(password):
+    print('*' * len(password))
+
+
+def get_password():
     password = input("Password: ")
-print('*' * len(password))
+    return password
+
+
+main()
