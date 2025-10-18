@@ -18,6 +18,7 @@ def main():
 
 
 def check_name(email, email_to_name, name):
+    """Check whether the name inferred from the email is the correct name and adjust if needed."""
     print(f"Is your name {name}? (Y/n)")
     name_check = input("")
     if 'n' or 'N' in name_check:  # accommodate for any type of 'no'
