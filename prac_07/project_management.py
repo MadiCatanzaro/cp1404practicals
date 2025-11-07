@@ -4,10 +4,11 @@ Estimate: 2 hours
 Actual:
 """
 
+import datetime
 
 class Project:
 
-    def __init__(self, name="", start_date="", priority=0, cost_estimate=0.00, completion_percentage=0):
+    def __init__(self, name, start_date, priority, cost_estimate, completion_percentage):
         self.name = name
         self.start_date = start_date
         self.priority = priority
@@ -15,7 +16,7 @@ class Project:
         self.completion_percentage = completion_percentage
 
     def __str__(self):
-        return (f"{self.name}, start: {self.start_date}, priority {self.priority}, estimate: ${self.cost_estimate:.2f},"
+        return (f"{self.name}, start: {self.start_date.strftime("%d/%m/%Y")}, priority {self.priority}, estimate: ${self.cost_estimate:.2f},"
                 f" completion: {self.completion_percentage}%")
 
     def __repr__(self):
@@ -58,7 +59,7 @@ def main():
             add_project(projects)
             print(projects)
         elif choice == "U":
-            pass
+            project_to_modify = input("Project to modify")
         else:
             print("Invalid menu option")
         print(MENU)
@@ -67,11 +68,12 @@ def main():
 
 def add_project(projects):
     name = input("Name: ")
-    start_date = input("Start date: ")
-    priority = input(int("Priority: "))
-    cost_estimate = input(float("Cost estimate: "))
-    completion_percentage = input(int("Completion percentage: "))
-    projects.append(Project(name, start_date, priority, cost_estimate, completion_percentage))
+    start_date_string = input("Start date (d/m/yyyy): ")
+    date = datetime.datetime.strptime(start_date_string, "%d/%m/%Y").date()
+    priority = int(input("Priority: "))
+    cost_estimate = float(input("Cost estimate: "))
+    completion_percentage = int(input("Completion percentage: "))
+    projects.append(Project(name, date, priority, cost_estimate, completion_percentage))
 
 
 def load_file(filename):
@@ -80,10 +82,12 @@ def load_file(filename):
     in_file.readline()
     for line in in_file:
         parts = line.strip().split('\t')
+        date_string = parts[1]
+        date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
         priority = int(parts[2])
         cost_estimate = float(parts[3])
         completion_percentage = int(parts[4])
-        project = Project(parts[0], parts[1], priority, cost_estimate, completion_percentage)
+        project = Project(parts[0], date, priority, cost_estimate, completion_percentage)
         projects.append(project)
     return projects
 
