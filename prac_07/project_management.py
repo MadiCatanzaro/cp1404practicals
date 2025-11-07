@@ -48,7 +48,7 @@ def main():
             load_file(filename)
             print(f"{filename} loaded")
         elif choice == "S":
-            filename = input("File to save: ")
+            save_to_file(projects)
         elif choice == "D":
             incomplete, complete = (test_complete_projects(projects))
             display_projects(incomplete, complete)
@@ -64,6 +64,14 @@ def main():
             print("Invalid menu option")
         print(MENU)
         choice = input(">>> ").upper()
+
+
+def save_to_file(projects):
+    filename = input("File to save: ")
+    save_file = open(filename, "w")
+    for project in projects:
+        print(project, file=save_file)
+    save_file.close()
 
 
 def add_project(projects):
