@@ -39,6 +39,7 @@ MENU = """- (L)oad projects
 def main():
     print("Welcome to Pythonic Project Management")
     projects = load_file("projects.txt")
+    print(projects)
     print(f"Loaded {(len(projects))} from projects.txt")
     print(MENU)
     choice = input(">>> ").upper()
@@ -63,22 +64,31 @@ def main():
             add_project(projects)
             print(projects)
         elif choice == "U":
-            for i, project in enumerate(projects):
-                print(f"{i} {project}")
-            project_to_modify = input("Project choice: ")
-            print(project[project_to_modify])
-            percentage = int(input("New Percentage: "))
-            priority = int(input("New Priority: "))
+            update_projects(projects)
         else:
             print("Invalid menu option")
         print(MENU)
         choice = input(">>> ").upper()
+    quit_program(projects)
+
+
+def update_projects(projects):
+    for i, project in enumerate(projects):
+        print(f"{i} {project}")
+    project_to_modify = int(input("Project choice: "))
+    print(projects[project_to_modify])
+    percentage = int(input("New Percentage: "))
+    priority = int(input("New Priority: "))
+    projects[project_to_modify].completion_percentage = percentage
+    projects[project_to_modify].priority = priority
+
+
+def quit_program(projects):
     quitting_save_option = input("Would you like to save to projects.txt? (Y/N) ").upper
     if quitting_save_option == 'Y':
         save_to_file("project.txt", projects)
     else:
         print("Thank you for using custom-built project management software.")
-
 
 
 def save_to_file(filename, projects):
