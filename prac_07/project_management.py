@@ -48,26 +48,40 @@ def main():
             load_file(filename)
             print(f"{filename} loaded")
         elif choice == "S":
-            save_to_file(projects)
+            filename = input("File to save: ")
+            save_to_file(filename, projects)
         elif choice == "D":
             incomplete, complete = (test_complete_projects(projects))
             display_projects(incomplete, complete)
         elif choice == "F":
-            date = input("Date: ")
-            pass
+            user_date_string = input("Show projects that start after date (d/m/yyyy): ")
+            user_date = datetime.datetime.strptime(user_date_string, "%d/%m/%Y").date()
+            for project in projects:
+                if project.start_date > user_date:
+                    print(sorted(project)) # HERE
         elif choice == "A":
             add_project(projects)
             print(projects)
         elif choice == "U":
-            project_to_modify = input("Project to modify")
+            for i, project in enumerate(projects):
+                print(f"{i} {project}")
+            project_to_modify = input("Project choice: ")
+            print(project[project_to_modify])
+            percentage = int(input("New Percentage: "))
+            priority = int(input("New Priority: "))
         else:
             print("Invalid menu option")
         print(MENU)
         choice = input(">>> ").upper()
+    quitting_save_option = input("Would you like to save to projects.txt? (Y/N) ").upper
+    if quitting_save_option == 'Y':
+        save_to_file("project.txt", projects)
+    else:
+        print("Thank you for using custom-built project management software.")
 
 
-def save_to_file(projects):
-    filename = input("File to save: ")
+
+def save_to_file(filename, projects):
     save_file = open(filename, "w")
     for project in projects:
         print(project, file=save_file)
@@ -75,6 +89,7 @@ def save_to_file(projects):
 
 
 def add_project(projects):
+    print("Let's add a new project")
     name = input("Name: ")
     start_date_string = input("Start date (d/m/yyyy): ")
     date = datetime.datetime.strptime(start_date_string, "%d/%m/%Y").date()
