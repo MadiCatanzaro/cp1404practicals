@@ -15,10 +15,14 @@ class Project:
         self.completion_percentage = completion_percentage
 
     def __str__(self):
-        return f"{self.name}, {self.start_date}, {self.priority}, {self.cost_estimate}, {self.completion_percentage}"
+        return (f"{self.name}, start: {self.start_date}, priority {self.priority}, estimate: ${self.cost_estimate:.2f},"
+                f" completion: {self.completion_percentage}%")
 
     def __repr__(self):
         return f"({self.name}, {self.start_date}, {self.priority}, {self.cost_estimate}, {self.completion_percentage})"
+
+    def __lt__(self, other):
+        return self.priority < other.priority
 
 
 MENU = """- (L)oad projects
@@ -32,37 +36,76 @@ MENU = """- (L)oad projects
 
 
 def main():
-    projects = []
     print("Welcome to Pythonic Project Management")
-    load_file("projects.txt")
+    projects = load_file("projects.txt")
+    print(f"Loaded {(len(projects))} from projects.txt")
     print(MENU)
     choice = input(">>> ").upper()
     while choice != "Q":
         if choice == "L":
-            load_file("projects.txt")
-            print("stop")
+            filename = input("File to load: ")
+            load_file(filename)
+            print(f"{filename} loaded")
         elif choice == "S":
-            pass
+            filename = input("File to save: ")
         elif choice == "D":
-            pass
+            incomplete, complete = (test_complete_projects(projects))
+            display_projects(incomplete, complete)
         elif choice == "F":
+            date = input("Date: ")
             pass
         elif choice == "A":
-            pass
+            add_project(projects)
+            print(projects)
         elif choice == "U":
             pass
         else:
             print("Invalid menu option")
-            print(MENU)
-            choice = input(">>> ").upper()
+        print(MENU)
+        choice = input(">>> ").upper()
+
+
+def add_project(projects):
+    name = input("Name: ")
+    start_date = input("Start date: ")
+    priority = input(int("Priority: "))
+    cost_estimate = input(float("Cost estimate: "))
+    completion_percentage = input(int("Completion percentage: "))
+    projects.append(Project(name, start_date, priority, cost_estimate, completion_percentage))
 
 
 def load_file(filename):
+    projects = []
     in_file = open(filename, "r")
     in_file.readline()
     for line in in_file:
         parts = line.strip().split('\t')
-        print(parts)
+        priority = int(parts[2])
+        cost_estimate = float(parts[3])
+        completion_percentage = int(parts[4])
+        project = Project(parts[0], parts[1], priority, cost_estimate, completion_percentage)
+        projects.append(project)
+    return projects
+
+
+def test_complete_projects(projects):
+    complete_projects = []
+    incomplete_projects = []
+    for project in projects:
+        if project.completion_percentage == 100:
+            complete_projects.append(project)
+        else:
+            incomplete_projects.append(project)
+    return incomplete_projects, complete_projects
+
+
+def display_projects(incomplete_projects, complete_projects):
+    print("Incomplete projects:")
+    for project in sorted(incomplete_projects):
+        print(f"\t{project}")
+    print("Complete projects:")
+    for project in sorted(complete_projects):
+        print(f"\t{project}")
 
 
 main()
