@@ -5,6 +5,8 @@ Actual:
 """
 
 import datetime
+from operator import attrgetter
+
 
 class Project:
 
@@ -16,8 +18,9 @@ class Project:
         self.completion_percentage = completion_percentage
 
     def __str__(self):
-        return (f"{self.name}, start: {self.start_date.strftime("%d/%m/%Y")}, priority {self.priority}, estimate: ${self.cost_estimate:.2f},"
-                f" completion: {self.completion_percentage}%")
+        return (
+            f"{self.name}, start: {self.start_date.strftime("%d/%m/%Y")}, priority {self.priority}, estimate: ${self.cost_estimate:.2f},"
+            f" completion: {self.completion_percentage}%")
 
     def __repr__(self):
         return f"({self.name}, {self.start_date}, {self.priority}, {self.cost_estimate}, {self.completion_percentage})"
@@ -40,6 +43,8 @@ def main():
     print("Welcome to Pythonic Project Management")
     projects = load_file("projects.txt")
     print(projects)
+    projects.sort(key=attrgetter("priority"))
+    print(sorted(projects, key=attrgetter("completion_percentage")))
     print(f"Loaded {(len(projects))} from projects.txt")
     print(MENU)
     choice = input(">>> ").upper()
@@ -55,11 +60,7 @@ def main():
             incomplete, complete = (test_complete_projects(projects))
             display_projects(incomplete, complete)
         elif choice == "F":
-            user_date_string = input("Show projects that start after date (d/m/yyyy): ")
-            user_date = datetime.datetime.strptime(user_date_string, "%d/%m/%Y").date()
-            for project in projects:
-                if project.start_date > user_date:
-                    print(sorted(project)) # HERE
+            sort_by_date(projects)
         elif choice == "A":
             add_project(projects)
             print(projects)
@@ -70,6 +71,17 @@ def main():
         print(MENU)
         choice = input(">>> ").upper()
     quit_program(projects)
+
+
+def sort_by_date(projects):
+    current_projects = []
+    user_date_string = input("Show projects that start after date (d/m/yyyy): ")
+    user_date = datetime.datetime.strptime(user_date_string, "%d/%m/%Y").date()
+    for project in projects:
+        if project.start_date > user_date:
+            current_projects.append(project)
+    for project in sorted(current_projects, key=attrgetter("start_date")):
+        print(project)
 
 
 def update_projects(projects):
