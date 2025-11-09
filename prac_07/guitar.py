@@ -8,18 +8,18 @@ CURRENT_YEAR = 2022
 class Guitar:
     """Represent Guitar Class"""
 
-    def __init__(self, name="", year=0, cost=0):
+    def __init__(self, name="", year=0, cost=0.00):
         """Initialise Guitar class attributes; name, year, cost."""
         self.name = name
         self.year = year
         self.cost = cost
 
     def __str__(self):
-        """Return string output."""
+        """Return string output for a Guitar."""
         return "{} ({}) : ${:.2f}".format(self.name, self.year, self.cost)
 
     def __repr__(self):
-        """Return representative string output???"""
+        """Return representative string output for a Guitar."""
         return f"({self.name}, {self.year}, {self.cost})"
 
     def __lt__(self, other):
@@ -37,22 +37,3 @@ class Guitar:
             return True
         else:
             return False
-
-
-def main():
-    guitars = []
-    in_file = open("guitars.csv", 'r')
-    for line in in_file:
-        parts = line.strip().split(',')
-        year = int(parts[1])
-        cost = float(parts[2])
-        guitar = Guitar(parts[0], year, cost)
-        guitars.append(guitar)
-    print(guitars)
-
-    # sort(guitars[0], guitars[1])
-    print(sorted(guitars))
-    # print(new_guitars)
-
-
-main()
