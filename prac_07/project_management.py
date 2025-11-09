@@ -25,7 +25,8 @@ class Project:
 
     def __repr__(self):
         """Display string representation of Project."""
-        return f"({self.name}, {self.start_date.strftime("%d/%m/%Y")}, {self.priority}, {self.cost_estimate}, {self.completion_percentage})"
+        return (f"({self.name}, {self.start_date.strftime("%d/%m/%Y")}, {self.priority}, {self.cost_estimate}, "
+                f"{self.completion_percentage})")
 
     def __lt__(self, other):
         """Return true if self is less than other."""
@@ -70,7 +71,6 @@ def main():
             sort_by_date(projects)
         elif choice == "A":
             add_project(projects)
-            # print(projects)
         elif choice == "U":
             update_projects(projects)
         else:
