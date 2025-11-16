@@ -2,13 +2,13 @@
 Box Layout Demo
 """
 
-
 from kivy.app import App
 from kivy.lang import Builder
 
 
 class BoxLayoutDemo(App):
     """Box Layout Demo is an app which greets a user after they input their name."""
+
     def build(self):
         """Build the Box Layout Demo App."""
         self.title = "Box Layout Demo"

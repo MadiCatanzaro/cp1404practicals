@@ -2,7 +2,6 @@
 Dynamic Labels
 """
 
-
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.label import Label
@@ -12,6 +11,7 @@ COLOUR = (0.5, 0.25, 0.75, 1)
 
 class DynamicLabelsApp(App):
     """Dynamic Labels App is an app which generates dynamic labels using a provided list of names."""
+
     def __init__(self, **kwargs):
         """Initialise the Dynamic Labels App."""
         super().__init__(**kwargs)
