@@ -28,4 +28,4 @@ class Band:
             else:
                 print(f"{musician.name} is playing: {musician.instruments[0]}")
         return None
-    # band.play() returns None in the console
+    # band.play() returns None when it is run in my_band.py
