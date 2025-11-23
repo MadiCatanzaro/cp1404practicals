@@ -15,8 +15,8 @@ class UnreliableCar(Car):
         self.reliability = reliability
 
     def drive(self, distance):
-        """Return the distance driven using the previous car drive method if a random number is less than the
-        reliability value."""
+        """Return the distance driven using the previous car drive method if a random number (0-100) is less than the
+        reliability value, otherwise set the distance driven to zero."""
         number = randint(0, 100)
         if number < self.reliability:
             distance_driven = super().drive(distance)
